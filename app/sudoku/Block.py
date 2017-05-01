@@ -66,15 +66,32 @@ class Block(object):
         self.textY = self.y + self.height / TWO - \
                      self.digit.get_rect().height / TWO
 
+        # Set of 1 - 9
+        self.set = []
+        for i in range(SET_LENGTH):
+            self.set.append(str(i + ONE))
+            
+
     ############################################################################
     #                                                                          #
     #                                 METHODS                                  #
     #                                                                          #
     ############################################################################
 
+    # Method removes digit from set
+    def removeFromSet(self, digit : str) -> None:
+        try:
+            index = self.set.index(digit)
+            left = self.set[: index]
+            right = self.set[index + ONE:]
+            self.set = left + right
+        except:
+            index = -1
+
     # Method updates text of block
     def update(self, text : str) -> None:
         self.text = text
+        self.removeFromSet(text)
         self.digit = self.font.render(self.text, False, BLACK)
         self.textX = self.x + self.width / TWO - self.digit.get_rect().width / TWO
         self.textY = self.y + self.height / TWO - self.digit.get_rect().height / TWO

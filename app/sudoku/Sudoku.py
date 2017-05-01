@@ -50,6 +50,14 @@ class Sudoku(object):
         self.grid = [ZERO] * (SET_LENGTH * SET_LENGTH)
         self.createBoard()
 
+        # Soduko message
+        pygame.font.init()
+        self.font = pygame.font.SysFont("None", 42)
+        self.messageText = "Please enjoy my Sudoku"
+        self.message = self.font.render(self.messageText, False, GREEN)
+        self.textX = 10
+        self.textY = 380
+
     ############################################################################
     #                                                                          #
     #                                 METHODS                                  #
@@ -173,7 +181,10 @@ class Sudoku(object):
 
     # Method updates text of a block
     def update(self, index : int, text : str) -> None:
-        self.blocks[index].update(text)
+        if int(text) > ZERO and int(text) < SET_LENGTH:
+            self.blocks[index].update(text)
+        else:
+            self.messageText = "Invalid Entry. Use 1 - 9."
 
     # Method shows Sudoku game board
     def show(self) -> None:
@@ -201,3 +212,6 @@ class Sudoku(object):
 
         self.p5.line(onethird, y, onethird, maxsize)   # Vertical 1
         self.p5.line(twothird, y, twothird, maxsize)   # Vertical 1
+
+        # Message
+        self.screen.blit(self.message, (self.textX, self.textY))
